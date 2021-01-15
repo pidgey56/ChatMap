@@ -1,0 +1,50 @@
+.messageContainer {
+  display: flex;
+  height: auto;
+  width: 70%;
+  min-width: 50%;
+  border-radius: 5px;
+  align-items: stretch;
+  background-color: blueviolet;
+  box-shadow: 0 3px 6px;
+}
+
+.isOwnerMessageContainer {
+  background-color: blue;
+}
+
+.messageData {
+  flex: 1;
+  padding: 10px;
+}
+
+.sender {
+  display: block;
+  color: lightpink;
+}
+
+.isOwnerSender {
+  color: lightpink;
+}
+
+.timestamp {
+  color: lightgray;
+}
+
+.isOwnTimeStamp {
+  color: lightgrey;
+}
+
+.messageContent {
+  height: auto;
+  flex: 9;
+  background-color: #fff;
+  padding: 10px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.isOwnMessageContent {
+  background-color: #e3f2fd;
+  color: #01579b;
+}

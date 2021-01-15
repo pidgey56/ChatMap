@@ -1,0 +1,21 @@
+<mat-toolbar color="primary" class="fixed-header">
+  <div class="example-sidenav-content">
+    <mat-icon (click)="drawer.toggle()">more_vert</mat-icon>
+  </div>
+  <span>ChatMap</span>
+</mat-toolbar>
+
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="right">
+    <div>
+      <button mat-raised-button (click)="drawer.toggle()">home</button><br />
+    </div>
+    <div>
+      <button mat-raised-button (click)="drawer.toggle()" routerLinkActive="active" routerLink="/chat">Chat</button>
+    </div>
+  </mat-drawer>
+  <div class="chatRoom">
+    <div class="chatHeaderWrapper"></div>
+    <router-outlet></router-outlet>
+  </div>
+</mat-drawer-container>

@@ -1,0 +1,15 @@
+.chatInput{
+    flex: 10;
+    transition: 0.1s ease-out;
+    padding-left: 5%;
+}
+
+.chatInput:focus{
+    transition:0.2s ease-in;
+}
+.chatButton{
+    flex: 1;
+    padding: 10px;
+    padding: 8px 24px;
+    transition: 0.2s ease-out;
+}

@@ -1,0 +1,26 @@
+.mainContent{
+    display: flex;
+}
+
+.userListWrapper{
+    display: flex;
+    flex: 1;
+    order: 1;
+    background-color: lightpink;
+    padding: 20px 0px 40xp 30px;
+}
+
+.feedWrapper{
+    flex: 5;
+    order: 2;
+    background-color: plum;
+    padding: 20px 0px 0px 24px;
+}
+
+.chatFormWrapper{
+    display: flex;
+    height: 50px;
+    background-color: #eee;
+    z-index: 3;
+    
+}
