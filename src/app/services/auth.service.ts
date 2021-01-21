@@ -1,17 +1,35 @@
 import { Injectable } from '@angular/core';
-import { rejects } from 'assert';
+import { Router } from '@angular/router';
 import * as firebase from 'firebase';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor() {}
+  constructor(private router: Router) {}
 
   signUp(email: string, password: string, displayName: string) {
     return new Promise((resolve, reject) => {
       firebase.default
         .auth()
         .createUserWithEmailAndPassword(email, password)
+        .then(
+          () => {
+            resolve();
+            this.creationUserInDb(email, displayName);
+            this.setDisplayName(displayName);
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+    });
+  }
+
+  logIn(email: string, password: string) {
+    return new Promise((resolve, reject) => {
+      firebase.default
+        .auth()
+        .signInWithEmailAndPassword(email, password)
         .then(
           () => {
             resolve();
@@ -23,8 +41,23 @@ export class AuthService {
     });
   }
 
-  getCurrentUser(){
+  getCurrentUser() {
     return firebase.default.auth().currentUser;
+  }
+
+  getCurrentUserDisplayName() {
+    return firebase.default.auth().currentUser.displayName;
+  }
+
+  getCurrentUserUid() {
+    return firebase.default.auth().currentUser.uid;
+  }
+
+  islog(): boolean {
+    if (this.getCurrentUser() == null || this.getCurrentUser() == undefined) {
+      return false;
+    }
+    return true;
   }
 
   signiN(email: string, password: string) {
@@ -45,19 +78,30 @@ export class AuthService {
 
   signOut() {
     firebase.default.auth().signOut();
+    this.router.navigate(['/']);
   }
 
-  setUserData(email: string, displayName: string, status: string): void {
-    const path = 'users/' + firebase.default.auth().currentUser.uid;
-    const data = {
-      email: email,
-      displayName: displayName,
-      status: status,
-    };
+  setDisplayName(displayName?: string) {
+    firebase.default
+      .auth()
+      .currentUser.updateProfile({
+        displayName: displayName,
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  creationUserInDb(email: string, displayName: string) {
+    const uid = this.getCurrentUserUid();
     firebase.default
       .database()
-      .ref(path)
-      .update(data)
-      .catch((error) => console.log(error));
+      .ref('users/' + uid)
+      .set({
+        email: email,
+        displayName: displayName,
+      });
   }
+
+
 }

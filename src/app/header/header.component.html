@@ -8,10 +8,58 @@
 <mat-drawer-container class="example-container" autosize>
   <mat-drawer #drawer class="example-sidenav" mode="right">
     <div>
-      <button mat-raised-button (click)="drawer.toggle()">home</button><br />
+      <button
+        mat-raised-button
+        (click)="drawer.toggle()"
+        routerLinkActive="active"
+        routerLink="/"
+      >
+        Home</button
+      ><br />
     </div>
     <div>
-      <button mat-raised-button (click)="drawer.toggle()" routerLinkActive="active" routerLink="/chat">Chat</button>
+      <button
+        *ngIf="islog"
+        mat-raised-button
+        (click)="drawer.toggle()"
+        routerLinkActive="active"
+        routerLink="/chat"
+      >
+        Chat
+      </button>
+    </div>
+    <div>
+      <button
+        *ngIf="!islog"
+        mat-raised-button
+        (click)="drawer.toggle()"
+        routerLinkActive="active"
+        routerLink="/signup"
+      >
+        SignUp
+      </button>
+    </div>
+    <div>
+      <button
+        *ngIf="!islog"
+        mat-raised-button
+        (click)="drawer.toggle()"
+        routerLinkActive="active"
+        routerLink="/login"
+      >
+        Log In
+      </button>
+    </div>
+    <div>
+      <button
+      *ngIf="islog"
+        mat-raised-button
+        (click)="drawer.toggle(); signOut()"
+        routerLinkActive="active"
+        routerLink="/login"
+      >
+        Sign Out
+      </button>
     </div>
   </mat-drawer>
   <div class="chatRoom">

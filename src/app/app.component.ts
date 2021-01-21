@@ -8,8 +8,10 @@ import { environment } from "../environments/environment";
 })
 export class AppComponent {
   title = 'ChatMap';
+  
   ngOnInit(){
-    firebase.default.initializeApp(environment.firebase)
+    firebase.default.initializeApp(environment.firebase);
+    
   }
 
 }

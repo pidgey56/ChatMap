@@ -18,12 +18,15 @@ export class SignupFormComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  signUp(){
+  signUp() {
     const email = this.email;
     const password = this.password;
     const displayName = this.displayName;
-    this.authService.signUp(email, password, displayName)
-    .then(resolve => this.router.navigate(['/']))
-    .catch(error => this.errorMsg = error)
+    this.authService
+      .signUp(email, password, displayName)
+      .then((resolve) => this.router.navigate(['/']))
+      .catch((error) => (this.errorMsg = error));
   }
+
+
 }
