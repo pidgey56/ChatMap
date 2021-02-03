@@ -6,17 +6,25 @@ import { AuthService } from '../services/auth.service';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { Subject } from 'rxjs';
 import { User } from '../models/user.model';
+import { Conversation } from '../models/conversation.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
+
   user: firebase.default.User;
-  users: User[];
+  /*users: User[];
+  usersSubject = new Subject<User[]>();*/
+
+  chatMessage: ChatMessage;
   chatMessages: ChatMessage[];
   chatMessagesSubject = new Subject<ChatMessage[]>();
-  chatMessage: ChatMessage;
-  usersSubject = new Subject<User[]>();
+
+  conversation: Conversation;
+  conversations : Conversation[];
+  conversationsSubject = new Subject<Conversation[]>();
+
 
   constructor(private authService: AuthService) {
     firebase.default.auth().onAuthStateChanged((auth) => {
@@ -25,18 +33,25 @@ export class ChatService {
       }
     });
     this.user = this.authService.getCurrentUser();
+    
     this.getMessages();
-    this.getUsers();
+    //this.getUsers();
+
   }
 
   emitMessages() {
     this.chatMessagesSubject.next(this.chatMessages);
   }
 
-  emitUsers() {
-    this.usersSubject.next(this.users);
+  emitConversation(){
+    this.conversationsSubject.next(this.conversations);
   }
 
+  /*emitUsers() {
+    this.usersSubject.next(this.users);
+  }*/
+
+  
   getMessages() {
     var ref = firebase.default.database().ref('messages');
     ref.orderByKey().on('value', (data) => {
@@ -45,13 +60,25 @@ export class ChatService {
     });
   }
 
-  getUsers() {
+  getConversations(){
+    var ref = firebase.default.database().ref('conversations/'+this.user.uid);
+    ref.on('value', (data) => {
+      this.conversation = data.val() ? data.val() : [];
+      this.emitConversation();
+    })
+  }
+
+  generateId(){
+    return "random phrase";
+  }
+
+  /*getUsers() {
     var ref = firebase.default.database().ref('/users');
     ref.orderByKey().on('value', (data) => {
       this.users = Object.values(data.val()) ? data.val() : [];
       this.emitUsers();
     });
-  }
+  }*/
 
   sendMessage(msg: string) {
     const timestamp = this.getTimeStamp();
@@ -78,4 +105,6 @@ export class ChatService {
       now.getUTCHours() + ':' + now.getUTCMinutes() + ':' + now.getUTCSeconds();
     return date + ' ' + time;
   }
+
+
 }
